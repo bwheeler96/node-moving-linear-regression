@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 var _ = require('underscore');
 
-var MovingLinearRegression = function(data) {
+var MovingLinearRegression = function(data, options) {
 	this.data = data;
+	this.options = options || {};
 	this.sumX = 0;
 	this.sumY = 0;
 	this.sumXY = 0;
@@ -20,17 +21,30 @@ var MovingLinearRegression = function(data) {
 }
 
 MovingLinearRegression.prototype.push = function(point) {
-	var removePoint = this.data.shift();
+	var removePoints = [];
+	if (this.options.shouldDropPoint) {
+		while (true) {
+			if (!this.options.shouldDropPoint(this.data[0])) 
+				break;
+			removePoints.push(this.data.shift());
+		}
+	} else {
+		removePoints.push(this.data.shift())
+	}
 	this.center = this.data[0][0];
-	var x = removePoint[0];
-	var y = removePoint[1];
-	this.sumX -= x;
-	this.sumY -= y;
-	this.sumXY -= y * y;
-	this.sumXX -= x * x;
-	this.data.push(point);
-	this.addPoint(point);
-	this.calculate();
+	var self = this;
+	_.each(removePoints, function(point) {
+		var x = point[0];
+		var y = point[1];
+		self.sumX -= x;
+		self.sumY -= y;
+		self.sumXY -= y * y;
+		self.sumXX -= x * x;
+		self.data.push(point);
+		self.addPoint(point);
+	});
+	self.calculate();
+	return self;
 };
 
 MovingLinearRegression.prototype.addPoint = function(point) {

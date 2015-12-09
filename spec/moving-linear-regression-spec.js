@@ -38,7 +38,7 @@ describe('MovingLinearRegression', function() {
 	it('moves properly', function() {
 		var regressionUnmoving = new MLR([[1, 3], [4, 10], [20, 30], [25, 35], [50, 80]]);
 		var regressionMoving = new MLR([[0, 0], [1, 3], [4, 10], [20, 30], [25, 35]]);
-		regressionMoving.push([50, 80]);
+		regressionMoving = regressionMoving.push([50, 80]);
 		expect(regressionMoving.slope).toEqual(regressionUnmoving.slope);
 		expect(regressionMoving.yIntercept).toEqual(regressionUnmoving.yIntercept);
 	});
