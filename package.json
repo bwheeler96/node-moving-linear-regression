@@ -1,0 +1,16 @@
+{
+  "name": "moving-linear-regression",
+  "version": "1.0.0",
+  "description": "Moving linear regression for timeseries data",
+  "main": "moving-linear-regression.js",
+  "dependencies": {
+    "underscore": "^1.8.3",
+    "jasmine": "^2.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "Brian Wheeler",
+  "license": "ISC"
+}
