@@ -18,7 +18,7 @@ var MovingLinearRegression = function(data, options) {
 	});
 	this.calculate();
 	return this;
-}
+};
 
 MovingLinearRegression.prototype.push = function(point) {
 	var removePoints = [];
@@ -41,8 +41,8 @@ MovingLinearRegression.prototype.push = function(point) {
 		self.sumXY -= y * y;
 		self.sumXX -= x * x;
 		self.data.push(point);
-		self.addPoint(point);
 	});
+	self.addPoint(point);
 	self.calculate();
 	return self;
 };
