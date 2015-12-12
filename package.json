@@ -1,6 +1,6 @@
 {
   "name": "moving-linear-regression",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Moving linear regression for timeseries data",
   "main": "moving-linear-regression.js",
   "dependencies": {
