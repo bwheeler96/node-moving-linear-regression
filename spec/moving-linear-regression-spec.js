@@ -23,6 +23,11 @@ describe('MovingLinearRegression', function() {
 		expect(regression.yIntercept).toEqual(4);
 	});
 
+	it('predicts correctly', function() {
+	var regression = new MLR([[1, 2], [3, 4], [4, 5]]);
+	expect(regression.predict(5)).toEqual(7);
+	});
+
 	it('calculates a steeper slope', function() {
 		var testData = [[1, 4], [2, 7], [3, 10]];
 		var regression = new MLR(testData);
@@ -37,7 +42,7 @@ describe('MovingLinearRegression', function() {
 
 	it('moves properly', function() {
 		var regressionUnmoving = new MLR([[1, 3], [4, 10], [20, 30], [25, 35], [50, 80]]);
-		var regressionMoving = new MLR([[0, 0], [1, 3], [4, 10], [20, 30], [25, 35]]);
+		var regressionMoving = new MLR([[1, 3], [4, 10], [20, 30], [25, 35]]);
 		regressionMoving = regressionMoving.push([50, 80]);
 		expect(regressionMoving.slope).toEqual(regressionUnmoving.slope);
 		expect(regressionMoving.yIntercept).toEqual(regressionUnmoving.yIntercept);
@@ -48,5 +53,17 @@ describe('MovingLinearRegression', function() {
 		var regressionMoving = new MLR([[0, 0], [1, 3], [4, 10], [20, 30], [25, 35]]);
 		expect(regressionMoving.slope).not.toEqual(regressionUnmoving.slope);
 		expect(regressionMoving.yIntercept).not.toEqual(regressionUnmoving.yIntercept);
+	});
+
+	it('handles custom shouldDrop function', function() {
+		var regressionNoDrop = new MLR([[1, 3], [2, 4], [3, 7]]);
+		var regressionDrop   = new MLR([[2, 4], [1, 3], [2, 4]], {
+			shouldDropPoint: function(point) {
+				return point[0] == 2;
+			}
+		});
+
+		regressionDrop.push([3, 7]);
+		expect(regressionDrop.slope).toEqual(regressionNoDrop.slope);
 	});
 });
